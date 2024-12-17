@@ -65,7 +65,7 @@ function log(level: DebugLevel, scope: string | undefined, messages: any[]) {
           return msg.stack || msg.message;
         }
         return JSON.stringify(msg, null, 2);
-      } catch (e) {
+      } catch {
         return String(msg);
       }
     }
