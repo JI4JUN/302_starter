@@ -16,15 +16,25 @@ type HeaderProps = {
 const Header = forwardRef<HTMLDivElement, HeaderProps>(({ className }, ref) => {
   const pathname = usePathname();
   return (
-    <div
-      ref={ref}
-      className={cn("flex items-center justify-end gap-2 p-2", className)}
+    <header
+      className={cn(
+        "border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        className
+      )}
     >
-      {!isAuthPath(pathname) && !isOutsideDeployMode() && <ToolInfo />}
-      <ChatToggler />
-      <LanguageSwitcher />
-      <ThemeSwitcher />
-    </div>
+      <div
+        ref={ref}
+        className={cn(
+          "fixed right-0 top-0 z-50 flex items-center justify-end gap-2 p-2",
+          className
+        )}
+      >
+        {!isAuthPath(pathname) && !isOutsideDeployMode() && <ToolInfo />}
+        <ChatToggler />
+        <LanguageSwitcher />
+        <ThemeSwitcher />
+      </div>
+    </header>
   );
 });
 
