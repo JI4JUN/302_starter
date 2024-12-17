@@ -5,8 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
+import { SignInFormType, SignInSchema } from "@/components/forms/auth/schema";
 import {
   CHINA_REGION,
   FALSE_STRING,
@@ -25,18 +25,6 @@ import { isAuthPath, removeParams } from "@/utils/path";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
-// Define the schema using Zod for form validation
-const schema = z.object({
-  code: z.string().optional(),
-  remember: z.boolean().optional(),
-});
-
-// Define the type for authentication data
-type AuthData = {
-  code: string;
-  remember: boolean;
-};
-
 const useAuth = () => {
   const [isPending, setIsPending] = useState(false);
   const params = useSearchParams();
@@ -53,12 +41,12 @@ const useAuth = () => {
     setValue,
     setError,
     formState: { errors },
-  } = useForm<AuthData>({
+  } = useForm<SignInFormType>({
     defaultValues: {
       code: "", // Default code to empty string
       remember: true, // Default remember to true
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(SignInSchema),
   });
 
   // Retrieve values from query param or local storage only when params change
@@ -81,14 +69,14 @@ const useAuth = () => {
 
   // Function to handle authentication
   const performAuth = useCallback(
-    async ({ code, remember }: AuthData) => {
+    async ({ code, remember }: SignInFormType) => {
       try {
         setIsPending(true);
 
         // Call login function to validate the code
         const result = await login(code);
 
-        logger.debug("result:", JSON.stringify(result));
+        logger.debug("Login result:", result);
 
         // Update app configuration from the store with result
         setConfig((prev) => ({
@@ -135,7 +123,7 @@ const useAuth = () => {
 
   // Callback for form submission
   const onSubmit = useCallback(
-    async (data: AuthData) => {
+    async (data: SignInFormType) => {
       await performAuth(data);
     },
     [performAuth]

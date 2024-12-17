@@ -1,15 +1,7 @@
-export type AuthFormProps = {
-  id: string;
-  name: string;
-  inputType: "checkbox" | "input";
-  type?: HTMLInputElement["type"];
-  options?: { value: string; label: string; id: string }[];
-  label?: string;
-  placeholder?: string;
-  autoComplete?: HTMLInputElement["autocomplete"];
-};
+import { FormGeneratorType } from "@/components/common/form-generator";
+import { SignInFormType } from "@/components/forms/auth/schema";
 
-export const SIGN_IN_FORM: AuthFormProps[] = [
+export const SIGN_IN_FORM: FormGeneratorType<SignInFormType>[] = [
   {
     id: "code",
     name: "code",
@@ -29,7 +21,7 @@ export const SIGN_IN_FORM: AuthFormProps[] = [
 ];
 
 type FormConstantsProps = {
-  signInForm: AuthFormProps[];
+  signInForm: FormGeneratorType<SignInFormType>[];
 };
 
 export const FORM_CONSTANTS: FormConstantsProps = {

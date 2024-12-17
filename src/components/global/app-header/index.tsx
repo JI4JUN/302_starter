@@ -7,6 +7,7 @@ import { forwardRef } from "react";
 import { LanguageSwitcher } from "./language-switcher";
 import { ThemeSwitcher } from "./theme-switcher";
 import { ToolInfo } from "./tool-info";
+import ChatToggler from "./chat-toggler";
 
 type HeaderProps = {
   className?: string;
@@ -20,6 +21,7 @@ const Header = forwardRef<HTMLDivElement, HeaderProps>(({ className }, ref) => {
       className={cn("flex items-center justify-end gap-2 p-2", className)}
     >
       {!isAuthPath(pathname) && !isOutsideDeployMode() && <ToolInfo />}
+      <ChatToggler />
       <LanguageSwitcher />
       <ThemeSwitcher />
     </div>
