@@ -58,21 +58,24 @@ function log(level: DebugLevel, scope: string | undefined, messages: any[]) {
     return;
   }
 
-  const allMessages = messages.reduce((acc, current) => {
-    if (acc.endsWith("\n")) {
-      return acc + current;
+  const formattedMessages = messages.map((msg) => {
+    if (typeof msg === "object") {
+      try {
+        if (msg instanceof Error) {
+          return msg.stack || msg.message;
+        }
+        return JSON.stringify(msg, null, 2);
+      } catch (e) {
+        return String(msg);
+      }
     }
+    return String(msg);
+  });
 
-    if (!acc) {
-      return current;
-    }
-
-    return `${acc} ${current}`;
-  }, "");
+  const allMessages = formattedMessages.join(" ");
 
   if (!supportsColor) {
-    console.log(`[${level.toUpperCase()}]`, allMessages);
-
+    console.log(`[${level.toUpperCase()}]`, ...messages);
     return;
   }
 
