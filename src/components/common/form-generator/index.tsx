@@ -171,6 +171,7 @@ const FormGenerator = <T extends FieldValues>({
             setValue(name, value);
           }}
           value={watchSelect}
+          {...register(name)}
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder={placeholder} />
