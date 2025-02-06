@@ -3,18 +3,19 @@ FROM node:20.14-alpine AS base
 
 # Stage 1: Install dependencies only when needed
 FROM base AS deps
+RUN apk update
+# Install compatibility libraries
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm@9.5.0
 
 # Copy package manager files only
 COPY package.json pnpm-lock.yaml* ./
 
-# Install necessary system packages before dependencies
-RUN apk add --no-cache libc6-compat && \
-    corepack enable pnpm && \
-    pnpm config set registry https://registry.npmjs.org
-
-# Install node_modules separately
-RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+# Install dependencies
+RUN pnpm config set registry https://registry.npmmirror.com && \
     pnpm install --frozen-lockfile
 
 # Stage 2: Builder stage
@@ -45,33 +46,44 @@ ENV NEXT_PUBLIC_AUTH_PATH=$NEXT_PUBLIC_AUTH_PATH
 ENV NEXT_PUBLIC_IS_CHINA=$NEXT_PUBLIC_IS_CHINA
 ENV NEXT_PUBLIC_DEFAULT_LOCALE=$NEXT_PUBLIC_DEFAULT_LOCALE
 
+# Install pnpm
+RUN npm install -g pnpm@9.5.0
+
 # Copy dependencies and source code
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build application
-RUN corepack enable pnpm && pnpm run build
+RUN pnpm run build
 
 # Stage 3: Runner stage
 FROM base AS runner
 WORKDIR /app
-# Create a non-root user
+
+# Create non-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
 # Copy static files
 COPY --from=builder /app/public ./public
-# Set permissions for pre-rendered cache
+
+# Set up .next directory
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
+
 # Copy build artifacts
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
 # Switch to non-root user
 USER nextjs
+
 # Expose port
 EXPOSE 3000
+
 # Set environment variables
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+
 # Start command
 CMD ["node", "server.js"]
