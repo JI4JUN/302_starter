@@ -168,7 +168,7 @@ const FormGenerator = <T extends FieldValues>({
         {label}
         <Select
           onValueChange={(value) => {
-            setValue(name, value);
+            value && setValue(name, value);
           }}
           value={watchSelect}
         >
