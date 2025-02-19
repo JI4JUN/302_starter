@@ -6,17 +6,22 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/global/use-theme";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import { useIsHideBrand } from "@/hooks/global/use-is-hide-brand";
 
 export function GithubHyperlink() {
-  const githubRepoUrl = env.NEXT_PUBLIC_GITHUB_REPO_URL;
-  const { theme } = useTheme();
   const t = useTranslations();
+
+  const githubRepoUrl = env.NEXT_PUBLIC_GITHUB_REPO_URL;
+
+  const { theme } = useTheme();
+
+  const isHidingBrand = useIsHideBrand();
 
   return (
     <a
       href={githubRepoUrl}
       target="_blank"
-      className={cn(githubRepoUrl ? "block" : "hidden")}
+      className={cn(githubRepoUrl && !isHidingBrand ? "block" : "hidden")}
     >
       <Button
         variant="icon"
