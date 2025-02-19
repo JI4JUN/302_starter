@@ -168,9 +168,10 @@ const FormGenerator = <T extends FieldValues>({
         {label}
         <Select
           onValueChange={(value) => {
-            value && setValue(name, value);
+            if (value) setValue(name, value);
           }}
           value={watchSelect}
+          {...register(name)}
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder={placeholder} />

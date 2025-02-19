@@ -16,7 +16,7 @@ COPY package.json pnpm-lock.yaml* ./
 
 # Install dependencies
 RUN pnpm config set registry https://registry.npmmirror.com && \
-    pnpm install --frozen-lockfile
+  pnpm install --frozen-lockfile
 
 # Stage 2: Builder stage
 FROM base AS builder
@@ -33,6 +33,7 @@ ARG NEXT_PUBLIC_302_WEBSITE_URL_GLOBAL
 ARG NEXT_PUBLIC_AUTH_PATH
 ARG NEXT_PUBLIC_IS_CHINA
 ARG NEXT_PUBLIC_DEFAULT_LOCALE
+ARG NEXT_PUBLIC_GITHUB_REPO_URL
 
 # Set environment variables
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
@@ -45,6 +46,7 @@ ENV NEXT_PUBLIC_302_WEBSITE_URL_GLOBAL=$NEXT_PUBLIC_302_WEBSITE_URL_GLOBAL
 ENV NEXT_PUBLIC_AUTH_PATH=$NEXT_PUBLIC_AUTH_PATH
 ENV NEXT_PUBLIC_IS_CHINA=$NEXT_PUBLIC_IS_CHINA
 ENV NEXT_PUBLIC_DEFAULT_LOCALE=$NEXT_PUBLIC_DEFAULT_LOCALE
+ENV NEXT_PUBLIC_GITHUB_REPO_URL=$NEXT_PUBLIC_GITHUB_REPO_URL
 
 # Install pnpm
 RUN npm install -g pnpm@9.5.0
