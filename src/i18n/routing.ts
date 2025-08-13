@@ -1,6 +1,6 @@
-import { GLOBAL } from "@/constants/values";
 import { createNavigation } from "next-intl/navigation";
 import { defineRouting } from "next-intl/routing";
+import { GLOBAL } from "@/constants/values";
 
 export const routing = defineRouting({
   locales: GLOBAL.LOCALE.SUPPORTED,

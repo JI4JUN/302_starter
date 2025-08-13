@@ -5,6 +5,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale;
 
   // Fallback to default locale if requested locale is invalid
+  // biome-ignore lint/suspicious/noExplicitAny: <ignore>
   if (!locale || !routing.locales.includes(locale as any)) {
     locale = routing.defaultLocale;
   }

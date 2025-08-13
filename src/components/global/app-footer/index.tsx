@@ -1,10 +1,10 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { forwardRef } from "react";
 
 import { useIsHideBrand } from "@/hooks/global/use-is-hide-brand";
-import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 import AppLogo from "../app-logo";
 
 type FooterProps = {

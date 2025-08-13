@@ -1,7 +1,7 @@
-import { THEME_COOKIE_NAME } from "@/constants";
 import { setCookie } from "cookies-next";
 import { useTheme as useNextTheme } from "next-themes";
 import { useEffect } from "react";
+import { THEME_COOKIE_NAME } from "@/constants";
 
 export const useTheme = () => {
   const { theme, setTheme: setNextTheme } = useNextTheme();

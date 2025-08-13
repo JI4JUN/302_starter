@@ -1,5 +1,5 @@
-import { FormGeneratorType } from "@/components/common/form-generator";
-import { SignInFormType } from "@/components/forms/auth/schema";
+import type { FormGeneratorType } from "@/components/common/form-generator";
+import type { SignInFormType } from "@/components/forms/auth/schema";
 
 export const SIGN_IN_FORM: FormGeneratorType<SignInFormType>[] = [
   {

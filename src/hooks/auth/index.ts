@@ -1,12 +1,15 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSetAtom } from "jotai";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
-import { SignInFormType, SignInSchema } from "@/components/forms/auth/schema";
+import {
+  type SignInFormType,
+  SignInSchema,
+} from "@/components/forms/auth/schema";
 import {
   CHINA_REGION,
   FALSE_STRING,
@@ -22,8 +25,6 @@ import { store } from "@/stores";
 import { appConfigAtom } from "@/stores/slices/config_store";
 import { logger } from "@/utils";
 import { isAuthPath, removeParams } from "@/utils/path";
-import { useSetAtom } from "jotai";
-import { useTranslations } from "next-intl";
 
 const useAuth = () => {
   const [isPending, setIsPending] = useState(false);

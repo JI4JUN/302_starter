@@ -1,6 +1,6 @@
+import { useAtom } from "jotai";
 import { useIsHideBrand } from "@/hooks/global/use-is-hide-brand";
 import { chatVisibleAtom } from "@/stores/slices/chat_store";
-import { useAtom } from "jotai";
 
 export const useChat = () => {
   const isHideBrand = useIsHideBrand();

@@ -1,7 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ReactNode } from "react";
 
 const AppTheme = ({ children }: { children: ReactNode }) => {
   return <TooltipProvider>{children}</TooltipProvider>;

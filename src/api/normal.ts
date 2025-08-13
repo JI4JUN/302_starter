@@ -1,10 +1,10 @@
 "use client";
 
+import ky from "ky";
 import { env } from "@/env";
 import { appConfigAtom, languageAtom, store } from "@/stores";
 import { langToCountry } from "@/utils/302";
 import { emitter } from "@/utils/mitt";
-import ky from "ky";
 
 // Error response type for 302 endpoints
 type ErrorResponse = {
@@ -44,7 +44,9 @@ export const apiKy = ky.create({
           if (res.error && uiLanguage) {
             const countryCode = langToCountry(uiLanguage);
             const message =
-              res.error[`message${countryCode && countryCode !== "en" ? `_${countryCode}` : ""}`];
+              res.error[
+                `message${countryCode && countryCode !== "en" ? `_${countryCode}` : ""}`
+              ];
             emitter.emit("ToastError", {
               code: res.error.err_code,
               message,

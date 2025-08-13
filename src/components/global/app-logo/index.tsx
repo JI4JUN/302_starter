@@ -1,9 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useDomain } from "@/hooks/global/use-domain";
 import { cn } from "@/lib/utils";
-
-import Image from "next/image";
 
 type AppLogoProps = {
   size?: "mini" | "full";

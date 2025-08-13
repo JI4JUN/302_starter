@@ -11,32 +11,32 @@ import AppTooltip from "@/components/global/app-tooltip";
 import { GLOBAL, SEO_DATA } from "@/constants";
 import { env } from "@/env";
 import "@/styles/globals.css";
-import { getServerTheme } from "@/utils/theme";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 
 import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { Metadata, ResolvingMetadata } from "next/types";
-import { ReactNode } from "react";
+import type { Metadata, ResolvingMetadata } from "next/types";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import type { ReactNode } from "react";
+import { getServerTheme } from "@/utils/theme";
 
 // SEO metadata
 export async function generateMetadata(
-  { params }: { params: { locale: string } },
+  { params }: { params: Promise<{ locale: string }> },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { locale } = params;
-  const hostname = headers().get("host") ?? "";
+  const { locale } = await params;
+  const hostname = (await headers()).get("host") ?? "";
   const previousImages = (await parent).openGraph?.images ?? [];
 
   // Get SEO data for the current language, using optional chaining and nullish coalescing
-  const currentSEO = SEO_DATA.languages?.[locale] ?? {
+  const currentSeo = SEO_DATA.languages?.[locale] ?? {
     title: "302 AI TOOL",
     description: "This is a tool for 302 AI",
     image: "/default-image.jpg",
   };
 
-  const images = [currentSEO.image, ...previousImages].filter(Boolean);
+  const images = [currentSeo.image, ...previousImages].filter(Boolean);
   const baseUrl = `https://${hostname}`;
 
   // Generate URL mapping for other language versions
@@ -50,8 +50,8 @@ export async function generateMetadata(
   }, {});
 
   return {
-    title: currentSEO.title,
-    description: currentSEO.description,
+    title: currentSeo.title,
+    description: currentSeo.description,
     metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `/${locale}`,
@@ -69,16 +69,21 @@ export async function generateMetadata(
 }
 
 export default async function RootLayout({
-  params: { locale },
+  params,
   children,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
   children: ReactNode;
 }) {
+  const { locale } = await params;
   // Ensure theme is set on server side, to avoid hydration error
-  const theme = getServerTheme(cookies);
+  const theme = await getServerTheme(cookies);
 
-  if (!GLOBAL.LOCALE.SUPPORTED.includes(locale as any)) {
+  if (
+    !GLOBAL.LOCALE.SUPPORTED.includes(
+      locale as (typeof GLOBAL.LOCALE.SUPPORTED)[number]
+    )
+  ) {
     notFound();
   }
 
@@ -98,8 +103,8 @@ export default async function RootLayout({
       <body className="flex flex-col antialiased">
         {/* Force theme to be set on client side, to avoid hydration error on first render */}
         <AppTheme theme={theme}>
-          <AppJotai>
-            <NextIntlClientProvider messages={messages}>
+          <NextIntlClientProvider messages={messages}>
+            <AppJotai>
               <AppClient>
                 <AppTooltip>
                   <AppHeader />
@@ -111,8 +116,8 @@ export default async function RootLayout({
                 <AppClickMonitor />
               </AppClient>
               <AppMessage />
-            </NextIntlClientProvider>
-          </AppJotai>
+            </AppJotai>
+          </NextIntlClientProvider>
         </AppTheme>
       </body>
     </html>

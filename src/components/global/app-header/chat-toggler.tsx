@@ -1,7 +1,7 @@
+import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useChat } from "@/hooks/global/use-chat";
 import { cn } from "@/lib/utils";
-import { MessageCircle } from "lucide-react";
 
 export default function ChatToggler() {
   const { isChatVisible, toggleChat } = useChat();

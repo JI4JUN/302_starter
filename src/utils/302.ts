@@ -16,7 +16,7 @@ export function langToCountry(lang: string) {
 
 // Get deploy mode
 export function depolyMode() {
-  return !!env.NEXT_PUBLIC_302_API_KEY
+  return env.NEXT_PUBLIC_302_API_KEY
     ? OUTSIDE_DEPLOY_MODE
     : INTERNAL_DEPLOY_MODE;
 }

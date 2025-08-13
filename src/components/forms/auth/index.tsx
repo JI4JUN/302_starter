@@ -1,14 +1,13 @@
 "use client";
 
-import { FormEvent } from "react";
-
+import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import type { FormEvent } from "react";
 import FormGenerator from "@/components/common/form-generator";
 import { LoaderRenderer } from "@/components/common/loader-renderer";
 import { Button } from "@/components/ui/button";
 import { FORM_CONSTANTS } from "@/constants";
 import useAuth from "@/hooks/auth";
-import { Loader2 } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 const SignInForm = () => {
   const t = useTranslations();

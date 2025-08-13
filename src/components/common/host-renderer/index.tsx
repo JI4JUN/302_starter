@@ -10,8 +10,8 @@ const HostRenderer = ({ content, replace = "302.AI" }: Props) => {
   const urlPattern = /(https?:\/\/[^\s]+)/g;
   return (
     <div className="break-normal">
-      {content.split(" ").map((word, index) => (
-        <span key={index}>
+      {content.split(" ").map((word) => (
+        <span key={word}>
           {urlPattern.test(word) || word === replace ? (
             <a
               href={word === replace ? domain : word}

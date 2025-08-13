@@ -1,5 +1,6 @@
-import { env } from "@/env";
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
+import { env } from "@/env";
+
 type ConfigState = {
   // If your tool is listed in the 302 Tool Marketplace, you will receive the tool's toolInfo when a user creates a tool during login.
   toolInfo?: string;

@@ -1,13 +1,12 @@
 "use client";
 
-import HostRenderer from "@/components/common/host-renderer";
-import { Toaster } from "@/components/ui/sonner";
-import { useIsDark } from "@/hooks/global/use-is-dark";
-import { emitter, ToastInfo } from "@/utils/mitt";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import HostRenderer from "@/components/common/host-renderer";
+import { Toaster } from "@/components/ui/sonner";
+import { emitter, type ToastInfo } from "@/utils/mitt";
+
 const AppMessage = () => {
-  const { isDark } = useIsDark();
   useEffect(() => {
     // Handler for success messages
     const handleToastSuccess = (successInfo: ToastInfo) => {
@@ -46,7 +45,7 @@ const AppMessage = () => {
       emitter.off("ToastSuccess", handleToastSuccess);
       emitter.off("ToastError", handleToastError);
     };
-  }, [isDark]); // Dependency array ensures the effect is set up again if toast changes
+  }, []); // Dependency array ensures the effect is set up once
 
   return <Toaster />;
 };

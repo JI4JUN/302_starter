@@ -1,5 +1,5 @@
+import { type NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
-import { NextRequest, NextResponse } from "next/server";
 import { GLOBAL } from "./constants";
 import { routing } from "./i18n/routing";
 import { normalizeLanguageCode } from "./utils/language";

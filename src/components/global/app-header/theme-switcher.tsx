@@ -1,5 +1,7 @@
 "use client";
 
+import { Moon, Sun } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,8 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/hooks/global/use-theme";
-import { Moon, Sun } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 export function ThemeSwitcher() {
   const t = useTranslations();

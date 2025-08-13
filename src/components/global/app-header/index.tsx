@@ -1,14 +1,14 @@
 "use client";
+import { usePathname } from "next/navigation";
+import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 import { isOutsideDeployMode } from "@/utils/302";
 import { isAuthPath } from "@/utils/path";
-import { usePathname } from "next/navigation";
-import { forwardRef } from "react";
+import ChatToggler from "./chat-toggler";
+import { GithubHyperlink } from "./github-hyperlink";
 import { LanguageSwitcher } from "./language-switcher";
 import { ThemeSwitcher } from "./theme-switcher";
 import { ToolInfo } from "./tool-info";
-import ChatToggler from "./chat-toggler";
-import { GithubHyperlink } from "./github-hyperlink";
 
 type HeaderProps = {
   className?: string;

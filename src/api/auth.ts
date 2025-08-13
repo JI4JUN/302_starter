@@ -1,8 +1,8 @@
 "use client";
+import ky from "ky";
 import { env } from "@/env";
 import { languageAtom, store } from "@/stores";
 import { langToCountry } from "@/utils/302";
-import ky from "ky";
 
 export const authKy = ky.create({
   prefixUrl: env.NEXT_PUBLIC_AUTH_API_URL,

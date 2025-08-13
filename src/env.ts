@@ -1,5 +1,5 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-import { ZodError, z } from "zod";
+import { z } from "zod";
 
 // Define and validate the environment variables
 export const env = createEnv({
@@ -41,11 +41,8 @@ export const env = createEnv({
     NEXT_PUBLIC_GITHUB_REPO_URL: process.env.NEXT_PUBLIC_GITHUB_REPO_URL,
   },
   // Handle validation errors
-  onValidationError: (error: ZodError) => {
-    console.error(
-      "❌ Invalid environment variables:",
-      error.flatten().fieldErrors
-    );
+  onValidationError: (issues) => {
+    console.error("❌ Invalid environment variables:", issues);
     process.exit(1);
   },
   emptyStringAsUndefined: true, // Treat empty strings as undefined

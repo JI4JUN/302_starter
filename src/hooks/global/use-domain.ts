@@ -1,8 +1,8 @@
 "use client";
 
+import { useAtomValue } from "jotai";
 import { env } from "@/env";
 import { appConfigAtom } from "@/stores/slices/config_store";
-import { useAtomValue } from "jotai";
 
 export function useDomain() {
   const isChina = useAtomValue(appConfigAtom).isChina;

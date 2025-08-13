@@ -18,7 +18,6 @@ const nextConfig = {
   experimental: {
     // Enable typed routes, see https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links
     typedRoutes: true,
-
   },
   images: {
     remotePatterns: [

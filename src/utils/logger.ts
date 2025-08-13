@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: ignore */
 import { env } from "@/env";
 
 export type DebugLevel = "trace" | "debug" | "info" | "warn" | "error";

@@ -1,7 +1,8 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: ignore */
 "use client";
 
-import { useChat } from "@/hooks/global/use-chat";
 import { useEffect } from "react";
+import { useChat } from "@/hooks/global/use-chat";
 
 declare global {
   interface Window {
@@ -37,10 +38,7 @@ const AppChat = () => {
   useEffect(() => {
     // Create chat function instance
     const createChatFunction = (): ChatFunction => {
-      const chatFunction = function (
-        this: ChatFunction | void,
-        ...args: any[]
-      ) {
+      const chatFunction = function (this: ChatFunction, ...args: any[]) {
         if (this && "callMethod" in this) {
           this.callMethod?.call(this, ...args);
         } else if (this && "queue" in this) {

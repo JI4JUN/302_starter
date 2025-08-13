@@ -44,5 +44,14 @@
         }
       }
     }
+  },
+  "translation": {
+    "global": {
+      "header": {
+        "github_hyperlink": {
+          "label": "Github Repo"
+        }
+      }
+    }
   }
 }

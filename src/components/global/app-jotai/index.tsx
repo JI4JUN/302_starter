@@ -1,8 +1,8 @@
 "use client";
 
-import { languageAtom, store } from "@/stores";
 import { Provider as JotaiProvider } from "jotai";
 import { useLocale } from "next-intl";
+import { languageAtom, store } from "@/stores";
 
 export default function AppJotai({ children }: { children: React.ReactNode }) {
   // Set the initial locale to the pathname locale

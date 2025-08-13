@@ -1,7 +1,7 @@
 "use client";
 
-import { createScopedLogger } from "@/utils/logger";
 import { useEffect } from "react";
+import { createScopedLogger } from "@/utils/logger";
 
 const logger = createScopedLogger("Home");
 

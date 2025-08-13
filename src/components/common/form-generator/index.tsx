@@ -1,25 +1,21 @@
 import {
   ErrorMessage,
-  FieldValuesFromFieldErrors,
+  type FieldValuesFromFieldErrors,
 } from "@hookform/error-message";
-
-import {
+import { HelpCircle, Loader2 } from "lucide-react";
+import type {
   FieldErrors,
   FieldName,
   FieldValues,
   Path,
   UseFormRegister,
+  UseFormSetValue,
 } from "react-hook-form";
-
+import { LoaderRenderer } from "@/components/common/loader-renderer";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-
-import { LoaderRenderer } from "@/components/common/loader-renderer";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -28,13 +24,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { HelpCircle, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import HostRenderer from "../host-renderer";
 
 type TextareaAction = {
@@ -92,8 +90,8 @@ export type FormGeneratorProps<T extends FieldValues> = {
   label?: string;
   lines?: number;
   register: UseFormRegister<T>;
-  setValue: (name: keyof T, value: any) => void;
-  watch: (_name: string, _defaultValue: any) => any;
+  setValue: UseFormSetValue<T>;
+  watch: (_name: string, _defaultValue: unknown) => unknown;
   className?: string;
   autoComplete?: HTMLInputElement["autocomplete"];
   textareaConfig?: TextareaConfig;
@@ -162,13 +160,13 @@ const FormGenerator = <T extends FieldValues>({
   );
 
   const renderSelect = () => {
-    const watchSelect = watch(name, defaultValue || "");
+    const watchSelect = watch(name, defaultValue || "") as string;
     return (
       <Label htmlFor={`select-${id}`} className="flex flex-col gap-2">
         {label}
         <Select
           onValueChange={(value) => {
-            if (value) setValue(name, value);
+            if (value) setValue(name, value as any);
           }}
           value={watchSelect}
           {...register(name)}
@@ -193,13 +191,13 @@ const FormGenerator = <T extends FieldValues>({
     <TooltipProvider>
       <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
-          <span
-            className="cursor-help"
+          <button
+            type="button"
+            className="cursor-help bg-transparent border-none p-0"
             onClick={(e) => e.preventDefault()}
-            tabIndex={-1}
           >
             <HelpCircle className="h-4 w-4 text-gray-400 hover:text-gray-500" />
-          </span>
+          </button>
         </TooltipTrigger>
         <TooltipContent
           sideOffset={4}
@@ -212,7 +210,7 @@ const FormGenerator = <T extends FieldValues>({
   );
 
   const renderTextarea = () => {
-    const watchTextarea = watch(name, "");
+    const watchTextarea = watch(name, "") as string;
     const currentLength = watchTextarea?.length || 0;
 
     const renderBottomContent = () => {
@@ -306,7 +304,7 @@ const FormGenerator = <T extends FieldValues>({
         </div>
         <div
           className={cn(
-            "flex flex-col overflow-hidden rounded-md border focus-within:outline focus-within:outline-1 focus-within:outline-primary",
+            "flex flex-col overflow-hidden rounded-md border focus-within:outline-1 focus-within:outline-primary",
             textareaConfig?.resize ? "resize-y" : "resize-none",
             textareaConfig?.showCount || textareaConfig?.action
               ? "min-h-28"
@@ -325,7 +323,7 @@ const FormGenerator = <T extends FieldValues>({
             maxLength={textareaConfig?.maxLength}
             {...register(name)}
             onChange={(e) => {
-              setValue(name, e.target.value);
+              setValue(name, e.target.value as any);
             }}
             rows={lines}
           />
@@ -338,14 +336,14 @@ const FormGenerator = <T extends FieldValues>({
   };
 
   const renderCheckbox = () => {
-    const watchCheckbox = watch(name, true);
+    const watchCheckbox = watch(name, true) as boolean;
     return (
       <Label className="flex items-center gap-2" htmlFor={`checkbox-${id}`}>
         <Checkbox
           id={`checkbox-${id}`}
           {...register(name)}
           checked={watchCheckbox}
-          onCheckedChange={(checked) => setValue(name, checked)}
+          onCheckedChange={(checked) => setValue(name, checked as any)}
         />
         {label}
       </Label>
@@ -353,7 +351,7 @@ const FormGenerator = <T extends FieldValues>({
   };
 
   const renderSwitch = () => {
-    const watchSwitch = watch(name, false);
+    const watchSwitch = watch(name, false) as boolean;
 
     return (
       <Label
@@ -365,7 +363,7 @@ const FormGenerator = <T extends FieldValues>({
           id={`switch-${id}`}
           checked={watchSwitch}
           onCheckedChange={(checked) => {
-            setValue(name, checked);
+            setValue(name, checked as any);
           }}
         />
       </Label>
@@ -373,7 +371,7 @@ const FormGenerator = <T extends FieldValues>({
   };
 
   const renderSlider = () => {
-    const watchSlider = watch(name, 0);
+    const watchSlider = watch(name, 0) as number;
 
     const hasDoubleLabel =
       (typeof sliderConfig?.minLabel === "object" &&
@@ -515,7 +513,7 @@ const FormGenerator = <T extends FieldValues>({
                 sliderConfig?.step ||
                 (sliderConfig?.fixedValues ? undefined : 1)
               }
-              onValueChange={(value) => setValue(name, value[0])}
+              onValueChange={(value) => setValue(name, value[0] as any)}
               {...(sliderConfig?.fixedValues && {
                 marks: sliderConfig.fixedValues.map((v) => v.value),
               })}

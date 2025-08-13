@@ -1,5 +1,7 @@
 "use client";
 
+import { useSetAtom } from "jotai";
+import { useEffect } from "react";
 import { env } from "@/env";
 import useAuth from "@/hooks/auth";
 import { usePathname, useRouter } from "@/i18n/routing";
@@ -7,8 +9,6 @@ import { appConfigAtom } from "@/stores";
 import { createScopedLogger } from "@/utils";
 import { isOutsideDeployMode } from "@/utils/302";
 import { isAuthPath, needAuth } from "@/utils/path";
-import { useSetAtom } from "jotai";
-import { useEffect } from "react";
 
 const logger = createScopedLogger("AppAuth");
 
@@ -22,7 +22,7 @@ const AppAuth = () => {
   useEffect(() => {
     if (isOutsideDeployMode()) {
       // Update app configuration from the store with result
-      setConfig((prev) => ({ ...prev, apiKey: env.NEXT_PUBLIC_302_API_KEY! }));
+      setConfig((prev) => ({ ...prev, apiKey: env.NEXT_PUBLIC_302_API_KEY }));
       if (isAuthPath(pathname)) {
         router.replace("/");
       }
